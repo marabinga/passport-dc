@@ -13,7 +13,7 @@ This module lets you authenticate using Discord in your Node.js applications. By
 ## Quick Start Example
 
 
-A ready-to-use example is available [Here](#full-summary-code-for-more-examples-look-at-exmaple-folderFull Summary Code (for more examples look at exmaple folder)) or at [`example/`](./example) folder.  
+A ready-to-use example is available [Here](#full-summary-code) or at [`example/`](./example) folder(more detailed).  
 You can run it to see how to integrate `passport-dc` with an Express app.
 
 ## Installation
@@ -188,7 +188,10 @@ refresh.requestNewAccessToken('discord', profile.refreshToken, function(err, acc
 
 
 ---
-## Full Summary Code (for more examples look at exmaple folder)
+## Full Summary Code
+
+- For more detailed exmaples look at the examples at [`example/`](./example) folder.
+
 <details>
     
 <summary>Resulting Code</summary>
@@ -264,7 +267,9 @@ app.post('/add-to-guild', checkAuth, function(req, res) {
 ```
 
 </details>
+
 ---
+
 ## License
 
 MIT
