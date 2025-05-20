@@ -1,0 +1,27 @@
+{
+  "name": "passport-discord",
+  "version": "1.0.0",
+  "description": "Passport strategy for authentication with Discord (discord.com)",
+  "main": "lib/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nanduwastaken/passport-discord.git"
+  },
+  "keywords": [
+    "passport",
+    "discord",
+    "auth",
+    "authentication",
+    "authn",
+    "identity"
+  ],
+  "author": "NanduWasTaken <nandubussines@gmail.com> (http://nandu.is-cool.dev)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nanduwastaken/passport-discord/issues"
+  },
+  "homepage": "https://github.com/nanduwastaken/passport-discord#readme",
+  "dependencies": {
+    "passport-oauth2": "^1.5.0"
+  }
+}
