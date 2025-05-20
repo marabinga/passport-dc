@@ -1,7 +1,8 @@
+// guild join functionality on the example2.js
 var express = require('express')
     , session = require('express-session')
     , passport = require('passport')
-    , Strategy = require('../lib').Strategy
+    , Strategy = require('passport-dc').Strategy
     , app = express();
 
 passport.serializeUser(function (user, done) {
@@ -14,16 +15,17 @@ passport.deserializeUser(function (obj, done) {
 });
 
 const scopes = ['identify', 'connections', 'email', 'guilds', 'guilds.join']
-const prompt = 'none'
+const prompt = 'none' // 'none' or 'consent' or 'login' or 'select_account'
 
 passport.use(new Strategy({
-    clientID: '889368430472495115',
-    clientSecret: 'hWXgCQl1bOYvUxwGgmwG9U9RgsygkVKP',
-    callbackURL: 'https://congenial-enigma-675x6grv5593r69q-5000.app.github.dev/callback',
+    clientID: 'client id',
+    clientSecret: 'client secret',
+    callbackURL: 'callback url',
     scope: scopes,
     prompt: prompt,
 }, function (accessToken, refreshToken, profile, done) {
     process.nextTick(function () {
+        // alternative: this is were the user may be saved to the database
         return done(null, profile);
     });
 }));
