@@ -9,7 +9,7 @@ This module lets you authenticate using Discord in your Node.js applications. By
 ## Installation
 
 ```bash
-npm install passport-disocord
+npm install passport-dc
 ```
 
 ---
@@ -20,7 +20,7 @@ npm install passport-disocord
 
 ```javascript
 const passport = require('passport');
-const DiscordStrategy = require('passport-disocrd').Strategy;
+const DiscordStrategy = require('passport-dc').Strategy;
 
 passport.use(new DiscordStrategy({
     clientID: 'YOUR_CLIENT_ID',
@@ -92,7 +92,7 @@ This package exposes a helper to add a user to a Discord guild (server) using th
 ### Usage
 
 ```javascript
-const { addUserToGuild } = require('passport-disocrd');
+const { addUserToGuild } = require('passport-dc');
 
 // Example usage after authentication:
 addUserToGuild(
