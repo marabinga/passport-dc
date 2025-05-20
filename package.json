@@ -1,8 +1,9 @@
 {
   "name": "passport-dc",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Passport strategy for authentication with Discord (discord.com)",
   "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/nanduwastaken/passport-discord.git"

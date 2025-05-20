@@ -25,6 +25,7 @@ passport.use(new Strategy({
     prompt: prompt,
 }, function (accessToken, refreshToken, profile, done) {
     process.nextTick(function () {
+    profile.refreshToken = refreshToken; // store this for later use
         // alternative: this is were the user may be saved to the database
         return done(null, profile);
     });

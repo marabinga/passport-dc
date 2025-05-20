@@ -12,10 +12,10 @@ passport.use(new Strategy({
     clientID: 'YOUR_CLIENT_ID',
     clientSecret: 'YOUR_CLIENT_SECRET',
     callbackURL: 'http://localhost:3000/auth/discord/callback',
-    scope: ['identify', 'email', 'guilds', 'guilds.join']
+    scope: ['identify', 'email', 'guilds', 'guilds.join'],
+    prompt: 'consent', // can be 'none', 'login', 'consent', or 'select_account'
 }, function (accessToken, refreshToken, profile, done) {
-    // Attach accessToken to profile for later use
-    profile.accessToken = accessToken;
+    profile.refreshToken = refreshToken; // store this for later use
     return done(null, profile);
 }));
 
