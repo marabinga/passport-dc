@@ -1,10 +1,19 @@
-# passport-disocrd
+# passport-dc
+> [!NOTE]
+> **Potential successor to [`passport-discord`](https://www.npmjs.com/package/passport-discord).**  
+> This package aims to provide a modern, maintained, and improved Discord OAuth2 strategy for Passport.
+
 
 [Passport](http://passportjs.org/) strategy for authenticating with [Discord](https://discord.com/) using OAuth 2.0.
 
 This module lets you authenticate using Discord in your Node.js applications. By plugging into Passport, Discord authentication can be easily and unobtrusively integrated into any application or framework that supports [Connect](http://www.senchalabs.org/connect/)-style middleware.
 
 ---
+
+## Quick Start Example
+
+A ready-to-use example is available in the [`example/`](./example) folder.  
+You can run it to see how to integrate `passport-dc` with an Express app.
 
 ## Installation
 
